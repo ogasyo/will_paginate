@@ -220,7 +220,7 @@ module WillPaginate
         end
 
         # we may have to scope ...
-        counter = Proc.new { count(count_options) }
+        counter = Proc.new { count(:id, count_options) }
 
         count = if finder.index('find_') == 0 and klass.respond_to?(scoper = finder.sub('find', 'with'))
                   # scope_out adds a 'with_finder' method which acts like with_scope, if it's present
