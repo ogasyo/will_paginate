@@ -27,6 +27,7 @@ module WillPaginate
       :next_label     => 'Next &raquo;',
       :inner_window   => 4, # links around the current page
       :outer_window   => 1, # links around beginning and end
+      :total_page_links_to_even => true, # inner_window=4 ... default:9(inner:4*2 + current:1) enabled:10
       :separator      => ' ', # single space is friendly to spiders and non-graphic browsers
       :param_name     => :page,
       :params         => nil,
@@ -270,6 +271,7 @@ module WillPaginate
       inner_window, outer_window = @options[:inner_window].to_i, @options[:outer_window].to_i
       window_from = current_page - inner_window
       window_to = current_page + inner_window
+      window_to += 1 if @options[:total_page_links_to_even]
       
       # adjust lower or upper limit if other is out of bounds
       if window_to > total_pages
@@ -283,10 +285,10 @@ module WillPaginate
       end
       
       visible   = (1..total_pages).to_a
-      left_gap  = (2 + outer_window)...window_from
-      right_gap = (window_to + 1)...(total_pages - outer_window)
-      visible  -= left_gap.to_a  if left_gap.last - left_gap.first > 1
-      visible  -= right_gap.to_a if right_gap.last - right_gap.first > 1
+      left_gap  = outer_window..(window_from - 1)
+      right_gap = (window_to + 1)..((total_pages + 1) - outer_window)
+      visible  -= left_gap.to_a  if left_gap.last - left_gap.first > 0
+      visible  -= right_gap.to_a if right_gap.last - right_gap.first > 0
 
       visible
     end
