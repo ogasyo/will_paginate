@@ -283,7 +283,7 @@ module WillPaginate
         window_from = 1
         window_to = total_pages if window_to > total_pages
       end
-      
+       
       visible   = (1..total_pages).to_a
       left_gap  = (1 + outer_window)..(window_from - 1)
       right_gap = (window_to + 1)..(total_pages - outer_window)
