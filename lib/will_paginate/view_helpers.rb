@@ -285,10 +285,10 @@ module WillPaginate
       end
       
       visible   = (1..total_pages).to_a
-      left_gap  = outer_window..(window_from - 1)
-      right_gap = (window_to + 1)..((total_pages + 1) - outer_window)
-      visible  -= left_gap.to_a  if left_gap.last - left_gap.first > 0
-      visible  -= right_gap.to_a if right_gap.last - right_gap.first > 0
+      left_gap  = (1 + outer_window)..(window_from - 1)
+      right_gap = (window_to + 1)..(total_pages - outer_window)
+      visible  -= left_gap.to_a
+      visible  -= right_gap.to_a
 
       visible
     end
